@@ -1,0 +1,42 @@
+from django.shortcuts import render, redirect
+# from django.http import HttpResponse
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+
+
+def index(request):
+    # return HttpResponse("<h1>¡Hola Mundo!</h1>")
+    return render(request, 'index.html', {
+        'title': 'Productos',
+        'message': 'Listado de Productos',
+        'products': [
+            {'title': 'Playera', 'price': 5, 'stock': True},  # producto
+            {'title': 'Camisa', 'price': 7, 'stock': True},
+            {'title': 'Mochila', 'price': 20, 'stock': False},
+            {'title': 'Laptop', 'price': 500, 'stock': True},
+        ]
+    })
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            login(request, user)
+            messages.success(request, f'Login exitoso para {user.username}')
+            return redirect('index')
+        else:
+            messages.warning(request, 'Usuario o contraseña no validos')
+
+    return render(request, 'users/login.html', {
+        # contexto
+    })
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, f'Cierre de sesión exitoso')
+    return redirect('login')

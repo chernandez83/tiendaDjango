@@ -1,0 +1,6 @@
+python -m venv env
+$ python -m pip install Django
+python .\tienda\manage.py runserver
+python .\tienda\manage.py migrate
+python .\tienda\manage.py createsuperuser
+batman 123

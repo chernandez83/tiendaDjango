@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 from .forms import RegisterForm
 
+
 def index(request):
     # return HttpResponse("<h1>¡Hola Mundo!</h1>")
     return render(request, 'index.html', {
@@ -22,6 +23,8 @@ def index(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('index')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -45,26 +48,18 @@ def logout_view(request):
 
 
 def register(request):
-    # form = RegisterForm({
-    #     'username': 'batman',
-    #     'email': 'batman@jl.com',
-    # })
-    
+    if request.user.is_authenticated:
+        return redirect('index')
     # crear formulario con los datos de POST o vacío si no hay POST
     form = RegisterForm(request.POST or None)
-    
+
     if request.method == 'POST' and form.is_valid():
-        # username = form.cleaned_data.get('username')
-        # email = form.cleaned_data.get('email')
-        # password = form.cleaned_data.get('password')
-        # # User.objects.create_user encripta el password
-        # user = User.objects.create_user(username=username, email=email, password=password)
         user = form.save()
         if user:
             login(request, user)
             messages.success(request, f'{user.username} creado exitosamente.')
             return redirect('index')
-    
+
     return render(request, 'users/register.html', {
         'form': form
     })

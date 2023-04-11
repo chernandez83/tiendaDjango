@@ -1,0 +1,44 @@
+{% url 'index' as index %}
+{% url 'register' as register %}
+{% url 'login' as login %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ index }}">La Tienda</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == index %}active{% endif %}" href="{{ index }}">Inicio</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav me-2">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link ms-auto" href="{% url 'logout' %}">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Logout
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    {# <a class="nav-link ms-auto" href="{% url 'register' %}"> #}
+                        <a class="nav-link ms-auto {% if request.path == register %}active{% endif %}"
+                            href="{{ register }}">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Registro
+                        </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ms-auto {% if request.path == login %}active{% endif %}" href="{{ login }}">
+                        <i class="fa-solid fa-user"></i>
+                        Login
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

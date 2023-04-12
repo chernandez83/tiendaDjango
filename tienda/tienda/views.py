@@ -7,18 +7,15 @@ from django.contrib.auth.models import User
 
 from .forms import RegisterForm
 
+from products.models import Product
 
 def index(request):
     # return HttpResponse("<h1>¡Hola Mundo!</h1>")
+    products = Product.objects.all().order_by('-id') # En orden descendente
     return render(request, 'index.html', {
         'title': 'Productos',
         'message': 'Listado de Productos',
-        'products': [
-            {'title': 'Playera', 'price': 5, 'stock': True},  # producto
-            {'title': 'Camisa', 'price': 7, 'stock': True},
-            {'title': 'Mochila', 'price': 20, 'stock': False},
-            {'title': 'Laptop', 'price': 500, 'stock': True},
-        ]
+        'products': products,
     })
 
 

@@ -2,20 +2,16 @@
 {% load static %}
 {% block content %}
 <div class="col">
-    <h1>{{ message }}</h1>
-    <ul class="list-group">
-        {# Listar productos #}
-        {% for product in products %}
-        <li class="list-group-item">{{ product.title }}
-            {% if product.stock %}
-            <span class="text-success">Disponible</span>
-            {% else %}
-            <span class="text-muted">Agotado</span>
-            {% endif %}
-        </li>
+    <h4 class="text-center">{{ message }}</h4>
+    {# Listar productos object_list product_list #}
+    <div class="row ">
+        {% for object in product_list %}
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-5">
+            {% include 'products/snippets/product.html' with product=object %}
+        </div>
         {% endfor %}
-    </ul>
-    <img src="{% static 'img/mochila.png' %}" alt="Mochila bonita">
+    </div>
+    {# <img src="{% static 'img/mochila.png' %}" alt="Mochila bonita"> #}
 </div>
 <script src="{% static 'js/main.js' %}"></script>
 {% endblock %}

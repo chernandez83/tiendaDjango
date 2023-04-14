@@ -1,0 +1,8 @@
+<form method="post" action="{% url 'carts:add' %}">
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <button type="submit" class="btn btn-warning">
+        <i class="fa-solid fa-cart-plus"></i>
+        Agregar al carrito
+    </button>
+</form>

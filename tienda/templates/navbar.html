@@ -1,6 +1,7 @@
 {% url 'index' as index %}
 {% url 'register' as register %}
 {% url 'login' as login %}
+{% url 'carts:cart' as cart %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ index }}">La Tienda</a>
@@ -9,9 +10,20 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == index %}active{% endif %}" href="{{ index }}">
+                        <i class="fa-solid fa-house"></i>
+                        Inicio
+                    </a>
+                </li>
+            </ul>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == index %}active{% endif %}" href="{{ index }}">Inicio</a>
+                    <a class="nav-link {% if request.path == cart %}active{% endif %}" href="{{ cart }}">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Carrito
+                    </a>
                 </li>
             </ul>
             <ul class="navbar-nav me-2">

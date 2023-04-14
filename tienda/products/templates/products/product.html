@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load product_extras %}
 {% block content %}
 <div class="col-3">
     {% if product.image %}
@@ -8,10 +9,13 @@
 <div class="col-9">
     <div class="h1">{{ product.title }}</div>
     <div class="h5 font-weight-bold">
-        Precio: <span class="text-success">${{ product.price }}</span>
+        Precio: <span class="text-success">{{ product.price | price_format }}</span>
     </div>
     <div>
         <p>{{ product.description }}</p>
+    </div>
+    <div>
+        {% include 'carts/snippets/add.html' %}
     </div>
 </div>
 {% endblock %}

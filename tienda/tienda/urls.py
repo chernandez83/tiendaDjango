@@ -31,6 +31,7 @@ urlpatterns = [
     path('users/register', views.register, name='register'),
     path('admin/', admin.site.urls),
     path('products/', include('products.urls')),
+    path('cart/', include('carts.urls'))
 ]
 
 if settings.DEBUG:

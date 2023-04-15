@@ -25,6 +25,12 @@ python .\manage.py startapp users
 python .\tienda\manage.py makemigrations
 python .\tienda\manage.py migrate
 
+python .\manage.py startapp carts
+python .\tienda\manage.py makemigrations
+python .\tienda\manage.py migrate
+# Este paso se hace dos veces, comentado la relación muchos a muchos la primera vez
+# y quitando el comentario la segunda
+
 ###################### Shell ######################
 
 python .\tienda\manage.py shell
@@ -69,6 +75,17 @@ profile.bio
 user.profile.bio
 profile.user.username
 
+from carts.models import Cart
+cart = Cart.objects.last()
+cart.products
+cart.products.all()
+cart.cartproducts_set.all()
+
+cart.cartproducts_set
+cart_product = cart.cartproducts_set.all().first()
+cart_product.cart
+cart_product.product
+cart_product.quantity
 
 ####################### Respaldar ######################
 python -Xutf8 tienda\manage.py dumpdata

@@ -1,5 +1,6 @@
 from .models import Cart
 
+# Modificar para recuperar carrito de usuario loggeado
 def get_or_create_cart(request):
     user = request.user if request.user.is_authenticated else None
     cart_id = request.session.get('cart_id')

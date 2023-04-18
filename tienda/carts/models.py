@@ -39,9 +39,20 @@ class Cart(models.Model):
     def update_totals(self):
         self.update_subtotal()
         self.update_total()
+        
+        if self.order:
+            self.order.update_total()
+        
+        # order = self.order_set.first() #_set accede a la relación
+        # if order:
+        #     order.update_total()
     
     def products_related(self):
         return self.cartproducts_set.select_related('product')
+    
+    @property
+    def order(self):
+        return self.order_set.first()
 
 
 class CartProductsManager(models.Manager):

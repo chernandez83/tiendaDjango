@@ -31,6 +31,10 @@ python .\tienda\manage.py migrate
 # Este paso se hace dos veces, comentado la relación muchos a muchos la primera vez
 # y quitando el comentario la segunda
 
+python .\manage.py startapp orders
+python .\tienda\manage.py makemigrations
+python .\tienda\manage.py migrate
+
 ###################### Shell ######################
 
 python .\tienda\manage.py shell

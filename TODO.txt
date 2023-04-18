@@ -3,3 +3,4 @@
 - Dueño del carrito
 - n+1 query
 - Optimizar cars.models.create_or_update_quantity
+- orders.models update_total ?

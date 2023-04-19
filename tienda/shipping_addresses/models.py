@@ -15,5 +15,13 @@ class ShippingAddress(models.Model):
     default = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def update_default(self, default=False):
+        self.default = default
+        self.save()
+    
     def __str__(self):
         return f'{self.user.username} {self.zipcode}'
+    
+    @property
+    def address(self):
+        return f'{self.city} - {self.state} - {self.country}'

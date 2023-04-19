@@ -26,12 +26,14 @@
                         Carrito
                     </a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == shipping_addresses %}active{% endif %}" href="{{ shipping_addresses }}">
                         <i class="fa-solid fa-map-location-dot"></i>
                         Direcciones
                     </a>
                 </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav me-2">
                 {% if user.is_authenticated %}

@@ -18,6 +18,9 @@ class ShippingAddress(models.Model):
     def update_default(self, default=False):
         self.default = default
         self.save()
+        
+    def has_orders(self):
+        return self.order_set.count() > 0
     
     def __str__(self):
         return f'{self.user.username} {self.zipcode}'

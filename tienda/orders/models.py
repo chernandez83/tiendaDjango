@@ -54,10 +54,13 @@ class Order(models.Model):
         
         shipping_address = self.user.shipping_address
         if shipping_address:
-            self.shipping_address = shipping_address
-            self.save()
+            self.update_shipping_address(shipping_address)
         
         return shipping_address
+    
+    def update_shipping_address(self, shipping_address):
+        self.shipping_address = shipping_address
+        self.save()
 
     def __str__(self):
         return f'{self.user.username} {self.order_id}'

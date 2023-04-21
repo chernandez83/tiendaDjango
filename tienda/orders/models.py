@@ -61,6 +61,14 @@ class Order(models.Model):
     def update_shipping_address(self, shipping_address):
         self.shipping_address = shipping_address
         self.save()
+        
+    def cancel(self):
+        self.status = OrderStatus.CANCELED
+        self.save()
+    
+    def complete(self):
+        self.status = OrderStatus.COMPLETED
+        self.save()
 
     def __str__(self):
         return f'{self.user.username} {self.order_id}'

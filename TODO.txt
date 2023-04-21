@@ -3,5 +3,7 @@
 - Dueño del carrito
 - n+1 query
 - Optimizar cars.models.create_or_update_quantity
-- orders.models update_total ?
+- orders.models update_total ? 
+- Cantidad de productos en summary.html (actualmente muestra el número de productos diferentes)
 - Agregar mensaje cuando la dirección no se puede eliminar pq tiene ordenes asociadas
+- email con sendgrid

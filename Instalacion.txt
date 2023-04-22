@@ -1,6 +1,7 @@
 python -m venv env
 $ python -m pip install Django
 pip install Pillow
+pip install python-decouple python-dotenv
 
 django-admin startproject tienda
 

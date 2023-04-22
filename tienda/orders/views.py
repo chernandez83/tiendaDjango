@@ -7,6 +7,7 @@ from shipping_addresses.models import ShippingAddress
 from carts.utils import get_or_create_cart, destroy_cart
 from .utils import get_or_create_order, breadcrumb, destroy_order
 
+from .mails import Mail
 
 @login_required(login_url='login')
 def order(request):
@@ -104,6 +105,7 @@ def complete(request):
         return redirect('carts:cart')
     
     order.complete()
+    Mail.send_complete_order(order, request.user)
     
     destroy_cart(request)
     destroy_order(request)

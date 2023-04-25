@@ -4,6 +4,7 @@
 {% url 'carts:cart' as cart %}
 {% url 'shipping_addresses:shipping_addresses' as shipping_addresses %}
 {% url 'orders:completed' as completed %}
+{% url 'billing_profiles:add' as billing_profiles  %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ index }}">La Tienda</a>
@@ -38,6 +39,12 @@
                     <a class="nav-link {% if request.path == completed %}active{% endif %}" href="{{ completed }}">
                         <i class="fa-solid fa-truck-fast"></i>
                         Pedidos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == billing_profiles %}active{% endif %}" href="{{ billing_profiles }}">
+                        <i class="fa-solid fa-credit-card"></i>
+                        Métodos de pago
                     </a>
                 </li>
                 {% endif %}

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'orders',
     'shipping_addresses',
     'promo_codes',
+    'billing_profiles',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -146,3 +147,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('MAIL_USERNAME')
 EMAIL_HOST_PASSWORD = config('MAIL_PASSWORD')
 EMAIL_HOST_SENDER = config('MAIL_SENDER')
+
+# Stripe
+
+STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
+STRIPE_PRIVATE_KEY = config('STRIPE_PRIVATE_KEY')

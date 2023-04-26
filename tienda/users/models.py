@@ -5,13 +5,33 @@ from django.contrib.auth.models import AbstractUser
 
 from orders.common import OrderStatus
 
+from stripeAPI.customer import create_customer
+
 class User(AbstractUser):
+    customer_id = models.CharField(max_length=100, blank=True, null=True)
+    
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
     
     @property
     def shipping_address(self):
         return self.shippingaddress_set.filter(default=True).first()
+    
+    @property
+    def description(self):
+        return f'Descripción de {self.username}'
+    
+    def has_billing_profiles(self):
+        return self.billingprofile_set.exists()
+    
+    def has_customer(self):
+        return self.customer_id is not None
+    
+    def create_customer_id(self):
+        if not self.has_customer():
+            customer = create_customer(self)
+            self.customer_id = customer.id
+            self.save()
     
     def has_shipping_address(self):
         return self.shipping_address is not None

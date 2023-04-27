@@ -29,6 +29,9 @@ class OrderListView(LoginRequiredMixin, ListView):
 def order(request, cart, order):
     # cart = get_or_create_cart(request)
     # order = get_or_create_order(cart=cart, request=request)
+    
+    if not cart.has_products():
+        return redirect('carts:cart')
 
     return render(request, 'orders/order.html', {
         'cart': cart,
@@ -42,6 +45,9 @@ def order(request, cart, order):
 def address(request, cart, order):
     # cart = get_or_create_cart(request)
     # order = get_or_create_order(cart, request)
+    
+    if not cart.has_products():
+        return redirect('carts:cart')
 
     shipping_address = order.get_or_set_shipping_address()
     # has_multiple_addresses = request.user.shippingaddress_set.count() > 1
@@ -82,12 +88,30 @@ def check_address(request, cart, order, pk):
 
     return redirect('orders:address')
 
+@login_required(login_url='login')
+@validate_cart_and_order
+def payment(request, cart, order):
+    
+    if not cart.has_products() or order.shipping_address is None:
+        return redirect('carts:cart')
+    
+    billing_profile = order.get_or_set_billing_profile()
+    
+    return render(request, 'orders/payment.html', {
+        'cart': cart,
+        'order': order,
+        'billing_profile': billing_profile,
+        'breadcrumbs': breadcrumb(address=True, payment=True)
+    })
 
 @login_required(login_url='login')
 @validate_cart_and_order
 def confirm(request, cart, order):
     # cart = get_or_create_cart(request)
     # order = get_or_create_order(cart, request)
+    
+    if not cart.has_products() or order.shipping_address is None or order.billing_profile is None:
+        return redirect('carts:cart')
 
     shipping_address = order.shipping_address
     if shipping_address is None:
@@ -97,7 +121,7 @@ def confirm(request, cart, order):
         'cart': cart,
         'order': order,
         'shipping_address': shipping_address,
-        'breadcrumbs': breadcrumb(address=True, confirmation=True),
+        'breadcrumbs': breadcrumb(address=True, payment=True, confirmation=True),
     })
 
 

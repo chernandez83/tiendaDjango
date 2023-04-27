@@ -8,6 +8,7 @@ from users.models import User
 from carts.models import Cart
 from shipping_addresses.models import ShippingAddress
 from promo_codes.models import PromoCode
+from billing_profiles.models import BillingProfile
 
 from .common import OrderStatus, choices
 
@@ -36,6 +37,10 @@ class Order(models.Model):
                                       null=True, 
                                       blank=True, 
                                       on_delete=models.CASCADE)
+    billing_profile = models.ForeignKey(BillingProfile, 
+                                        null=True, 
+                                        blank=True, 
+                                        on_delete=models.CASCADE)
 
     def get_total(self):
         return self.cart.total + self.shipping_total - decimal.Decimal(self.get_discount())
@@ -60,8 +65,22 @@ class Order(models.Model):
         
         return shipping_address
     
+    def get_or_set_billing_profile(self):
+        if self.billing_profile:
+            return self.billing_profile
+        
+        billing_profile = self.user.billing_profile
+        if billing_profile:
+            self.update_billing_profile(billing_profile)
+            
+        return billing_profile
+    
     def update_shipping_address(self, shipping_address):
         self.shipping_address = shipping_address
+        self.save()
+    
+    def update_billing_profile(self, billing_profile):
+        self.billing_profile = billing_profile
         self.save()
         
     def cancel(self):

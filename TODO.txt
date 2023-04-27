@@ -7,3 +7,5 @@
 - Cantidad de productos en summary.html (actualmente muestra el número de productos diferentes)
 - Agregar mensaje cuando la dirección no se puede eliminar pq tiene ordenes asociadas
 - email con sendgrid
+- tarjeta tarjetas: diseño, eliminar, cambiar default
+- Historia breadcrumb (que guarde cuando ya se eligió una opción)

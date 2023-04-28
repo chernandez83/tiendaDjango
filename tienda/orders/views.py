@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
 from django.db.models.query import EmptyQuerySet
+from django.db import transaction
 
 from shipping_addresses.models import ShippingAddress
 
@@ -14,6 +15,8 @@ from .utils import get_or_create_order, breadcrumb, destroy_order
 
 from .mails import Mail
 from .decorators import validate_cart_and_order
+
+from charges.models import Charge
 
 class OrderListView(LoginRequiredMixin, ListView):
     login_url = 'login'
@@ -151,19 +154,26 @@ def complete(request, cart, order):
     if request.user.id != order.user_id:
         return redirect('carts:cart')
     
-    order.complete()
+    charge = Charge.objects.create_charge(order)
     
-    # Habilitar para enviar correo de confirmación
-    # Mail.send_complete_order(order, request.user)
+    if charge:
+        with transaction.atomic():
+            order.complete()
+        
+            # Habilitar para enviar correo de confirmación
+            # Mail.send_complete_order(order, request.user)
+            
+            # Habilitar para enviar correo de confirmación async
+            # thread = threading.Thread(target=Mail.send_complete_order, args=(
+            #     order, request.user
+            # ))
+            # thread.start()
+        
+            destroy_cart(request)
+            destroy_order(request)
+            
+            messages.success(request, 'Compra completada exitosamente')
+    else:
+        messages.warning(request, 'Pago no autorizado')
     
-    # Habilitar para enviar correo de confirmación async
-    # thread = threading.Thread(target=Mail.send_complete_order, args=(
-    #     order, request.user
-    # ))
-    # thread.start()
-    
-    destroy_cart(request)
-    destroy_order(request)
-    
-    messages.success(request, 'Compra completada exitosamente')
     return redirect('index')

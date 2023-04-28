@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'shipping_addresses',
     'promo_codes',
     'billing_profiles',
+    'charges',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

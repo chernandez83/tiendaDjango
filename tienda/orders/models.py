@@ -98,6 +98,10 @@ class Order(models.Model):
             
             self.update_total()
             promo_code.use()
+            
+    @property
+    def description(self):
+        return f'Compra de {self.cart.products.count()} productos'
 
     def __str__(self):
         return f'{self.user.username} {self.order_id}'

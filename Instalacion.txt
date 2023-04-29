@@ -3,6 +3,12 @@ $ python -m pip install Django
 pip install Pillow
 pip install python-decouple python-dotenv
 
+pip install psycopg2-binary # PostgreSQL
+
+pip install mysqlclient
+mysql -u root -p
+
+
 django-admin startproject tienda
 
 python .\tienda\manage.py runserver
